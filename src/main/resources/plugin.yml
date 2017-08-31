@@ -1,0 +1,9 @@
+name: Vouchers
+description: Give your players items that execute commands
+version: 2.0
+author: Vanishedd
+main: com.vanished.vouchers.Vouchers
+commands:
+  vouchers:
+    description: Base command for the plugin
+    aliases: [voucher]

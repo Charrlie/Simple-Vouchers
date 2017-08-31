@@ -1,0 +1,33 @@
+Vouchers:
+  Diamonds:
+    Item: 'paper 1 name:&b&l3x_Diamond_Note lore:&7&oRight-Click_to_receive_3_Diamonds!'
+    Message: '%prefix% &7You''ve received 3 Diamonds!'
+    Commands:
+      Give:
+        Command: 'give %username% diamond 3'
+  Gold:
+    Item: 'paper 1 name:&6&l5x_Gold_Note lore:&7&oRight-Click_to_receive_3_Gold_Ingots!/n&7&oYou_will_also_receive_2_Gold_Ingots_in_10_seconds.'
+    Message: '%prefix% &7You''ve received 3 Gold Ingots!'
+    Commands:
+      Give:
+        Command: 'give %username% gold_ingot 3'
+      Delayed:
+        Command: 'give %username% gold_ingot 2'
+        Delay: 10
+  XP:
+    Item: 'exp_bottle 1 name:&6&l100_Experience lore:&7&oRight-Click_to_receive_100_EXP!'
+    Message: '%prefix% &7You''ve received 100 EXP!'
+    Sound: 'note_pling'
+    Commands:
+      Give:
+        Command: 'xp give %username% 100'
+  Heal:
+    Item: 'stick 1 name:&d&lStick_Of_Healing lore:&7&oRight-Click_to_receive_the_ability_of_/heal_for_60_seconds!'
+    Message: '%prefix% You can now heal yourself for 60 seconds!'
+    Commands:
+      Give-Permission:
+        Command: 'pex user %username% add essentials.heal'
+      Remove-Permission:
+        Command: 'pex user %username% remove essentials.heal'
+        Message: '%prefix% You can no longer heal yourself.'
+        Delay: 60
