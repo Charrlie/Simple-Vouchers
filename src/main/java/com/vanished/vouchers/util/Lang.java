@@ -1,7 +1,10 @@
 package com.vanished.vouchers.util;
 
 import com.vanished.vouchers.Vouchers;
+import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
+
+import java.util.List;
 
 public enum Lang {
     ERR_BAD_AMOUNT("err-bad-amount", "The amount specified must be a number!"),
@@ -35,8 +38,12 @@ public enum Lang {
     @Override
     public String toString() {
         Vouchers plugin = Vouchers.getInstance();
-
         StringBuilder stringBuilder = new StringBuilder();
+        String message = LANG.getString(path, def);
+
+        if (message.equals("")) {
+            return null;
+        }
 
         if (plugin.getConfig().getBoolean("Use-Prefix")) {
             stringBuilder.append(Lang.LANG.getString("prefix", PREFIX.def));
@@ -59,5 +66,32 @@ public enum Lang {
         stringBuilder.append(LANG.getString(path, def));
 
         return Util.colorize(stringBuilder.toString());
+    }
+
+    public void sendMessage(CommandSender sender, List<String> replacements, boolean addPrefix) {
+        Vouchers plugin = Vouchers.getInstance();
+        StringBuilder stringBuilder = new StringBuilder();
+        String message = toString(false);
+
+        if (message.equals("")) {
+            return;
+        }
+
+        if (replacements != null) {
+            for (String replacement : replacements) {
+                if (!replacement.contains(";")) {
+                    continue;
+                }
+
+                message = message.replace(replacement.split(";")[0], replacement.split(";")[1]);
+            }
+        }
+
+        if (addPrefix && plugin.getConfig().getBoolean("Use-Prefix")) {
+            stringBuilder.append(Lang.LANG.getString("prefix", PREFIX.def));
+        }
+
+        stringBuilder.append(message);
+        sender.sendMessage(Util.colorize(stringBuilder.toString()));
     }
 }

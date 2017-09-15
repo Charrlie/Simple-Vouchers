@@ -26,12 +26,7 @@ public enum Enchantments {
     LUCK("luck of the sea"),
     LURE("lure"),
     LOOT_BONUS_BLOCKS("fortune"),
-    DEPTH_STRIDER("depth strider"),
-    FROST_WALKER("frost walker"),
-    MENDING("mending"),
-    BINDING_CURSE("curse of binding"),
-    VANISHING_CURSE("curse of vanishing"),
-    SWEEPING_EDGE("sweeping edge");
+    DEPTH_STRIDER("depth strider");
 
     private final String niceName;
 

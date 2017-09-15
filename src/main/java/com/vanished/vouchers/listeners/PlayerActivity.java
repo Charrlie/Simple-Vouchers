@@ -16,6 +16,8 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.Collections;
+
 public class PlayerActivity implements Listener {
     private Vouchers plugin = Vouchers.getInstance();
     private FileManager fileManager = plugin.fileManager;
@@ -29,7 +31,7 @@ public class PlayerActivity implements Listener {
             return;
         }
 
-        ItemStack current = player.getInventory().getItemInMainHand();
+        ItemStack current = player.getItemInHand();
 
         if (current == null) {
             return;
@@ -48,7 +50,7 @@ public class PlayerActivity implements Listener {
             e.setCancelled(true);
 
             if (current.getAmount() == 1) {
-                player.getInventory().setItemInMainHand(null);
+                player.setItemInHand(null);
             } else {
                 current.setAmount(current.getAmount() - 1);
             }
@@ -77,7 +79,7 @@ public class PlayerActivity implements Listener {
                 try {
                     player.getWorld().playSound(player.getLocation(), Sound.valueOf(vouchersFile.getCustomConfig().getString("Vouchers." + voucher + ".Sound").toUpperCase()), 1, 1);
                 } catch (IllegalArgumentException ex) {
-                    player.sendMessage(Lang.ERR_BAD_SOUND.toString().replace("%voucher%", voucher));
+                    Lang.ERR_BAD_SOUND.sendMessage(player, Collections.singletonList("%voucher%;" + voucher), true);
                 }
             }
 
@@ -121,7 +123,7 @@ public class PlayerActivity implements Listener {
                                 try {
                                     player.getWorld().playSound(player.getLocation(), Sound.valueOf(vouchersFinal.getCustomConfig().getString("Vouchers." + voucher + ".Commands." + commandNode + ".Sound").toUpperCase()), 1, 1);
                                 } catch (IllegalArgumentException ex) {
-                                    player.sendMessage(Lang.ERR_BAD_SOUND.toString().replace("%voucher%", voucher));
+                                    Lang.ERR_BAD_SOUND.sendMessage(player, Collections.singletonList("%voucher%;" + voucher), true);
                                 }
                             }
                         }, vouchersFile.getCustomConfig().getInt("Vouchers." + voucher + ".Commands." + commandNode + ".Delay") * 20L);
@@ -162,7 +164,7 @@ public class PlayerActivity implements Listener {
                         try {
                             player.getWorld().playSound(player.getLocation(), Sound.valueOf(vouchersFile.getCustomConfig().getString("Vouchers." + voucher + ".Commands." + commandNode + ".Sound").toUpperCase()), 1, 1);
                         } catch (IllegalArgumentException ex) {
-                            player.sendMessage(Lang.ERR_BAD_SOUND.toString().replace("%voucher%", voucher));
+                            Lang.ERR_BAD_SOUND.sendMessage(player, Collections.singletonList("%voucher%;" + voucher), true);
                         }
                     }
                 }

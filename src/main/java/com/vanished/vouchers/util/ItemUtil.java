@@ -209,26 +209,6 @@ public class ItemUtil {
                 }
                 case "depth_strider": {
                     itemMeta.addEnchant(Enchantment.DEPTH_STRIDER, Integer.parseInt(value), true);
-                    continue;
-                }
-                case "frost_walker": {
-                    itemMeta.addEnchant(Enchantment.FROST_WALKER, Integer.parseInt(value), true);
-                    continue;
-                }
-                case "mending": {
-                    itemMeta.addEnchant(Enchantment.MENDING, Integer.parseInt(value), true);
-                    continue;
-                }
-                case "curse_of_binding": {
-                    itemMeta.addEnchant(Enchantment.BINDING_CURSE, Integer.parseInt(value), true);
-                    continue;
-                }
-                case "curse_of_vanishing": {
-                    itemMeta.addEnchant(Enchantment.VANISHING_CURSE, Integer.parseInt(value), true);
-                    continue;
-                }
-                case "sweeping_edge": {
-                    itemMeta.addEnchant(Enchantment.SWEEPING_EDGE, Integer.parseInt(value), true);
                 }
             }
         }

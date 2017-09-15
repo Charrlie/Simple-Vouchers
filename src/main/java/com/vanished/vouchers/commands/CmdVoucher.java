@@ -12,6 +12,9 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.Arrays;
+import java.util.Collections;
+
 public class CmdVoucher implements CommandExecutor {
     private Vouchers plugin = Vouchers.getInstance();
     private FileManager fileManager = plugin.fileManager;
@@ -23,7 +26,7 @@ public class CmdVoucher implements CommandExecutor {
 
         if (args.length == 0) {
             if (!sender.hasPermission("vouchers.help")) {
-                sender.sendMessage(Lang.ERR_NO_PERMISSION.toString().replace("%permission%", "vouchers.help"));
+                Lang.ERR_NO_PERMISSION.sendMessage(sender, Collections.singletonList("%permission%;vouchers.help"), true);
                 return false;
             }
 
@@ -37,7 +40,7 @@ public class CmdVoucher implements CommandExecutor {
 
         if (subCommand.equalsIgnoreCase("reload")) {
             if (!sender.hasPermission("vouchers.reload")) {
-                sender.sendMessage(Lang.ERR_NO_PERMISSION.toString().replace("%permission%", "vouchers.reload"));
+                Lang.ERR_NO_PERMISSION.sendMessage(sender, Collections.singletonList("%permission%;vouchers.reload"), true);
                 return false;
             }
             long startingTime = System.currentTimeMillis();
@@ -45,13 +48,14 @@ public class CmdVoucher implements CommandExecutor {
             plugin.reloadConfig();
             fileManager.getFile("vouchers").reloadCustomConfig();
             fileManager.getFile("lang").reloadCustomConfig();
-            sender.sendMessage(Lang.CONFIG_RELOADED.toString().replace("%time%", Long.toString(System.currentTimeMillis() - startingTime)));
+            Lang.setFile(fileManager.getFile("lang").getCustomConfig());
+            Lang.CONFIG_RELOADED.sendMessage(sender, Collections.singletonList("%time%;" + Long.toString(System.currentTimeMillis() - startingTime)), true);
             return true;
         }
 
         if (subCommand.equalsIgnoreCase("list")) {
             if (!sender.hasPermission("vouchers.list")) {
-                sender.sendMessage(Lang.ERR_NO_PERMISSION.toString().replace("%permission%", "vouchers.list"));
+                Lang.ERR_NO_PERMISSION.sendMessage(sender, Collections.singletonList("%permission%;vouchers.list"), true);
                 return false;
             }
             StringBuilder stringBuilder = new StringBuilder();
@@ -63,30 +67,30 @@ public class CmdVoucher implements CommandExecutor {
             String voucherList = stringBuilder.toString().trim();
             voucherList = voucherList.substring(0, voucherList.length() - 1);
 
-            sender.sendMessage(Lang.VOUCHERS.toString().replace("%vouchers%", voucherList));
+            Lang.VOUCHERS.sendMessage(sender, Collections.singletonList("%vouchers%;" + voucherList), true);
             return true;
         }
 
         if (subCommand.equalsIgnoreCase("give")) {
             if (!sender.hasPermission("vouchers.give")) {
-                sender.sendMessage(Lang.ERR_NO_PERMISSION.toString().replace("%permission%", "vouchers.give"));
+                Lang.ERR_NO_PERMISSION.sendMessage(sender, Collections.singletonList("%permission%;vouchers.give"), true);
                 return false;
             }
 
             if (args.length == 1) {
-                sender.sendMessage(Lang.ERR_SPECIFY_PLAYER.toString());
+                Lang.ERR_SPECIFY_PLAYER.sendMessage(sender, null, true);
                 return false;
             }
 
             Player target = Bukkit.getPlayer(args[1]);
 
             if (target == null) {
-                sender.sendMessage(Lang.ERR_OFFLINE.toString().replace("%player%", args[1]));
+                Lang.ERR_OFFLINE.sendMessage(sender, Collections.singletonList("%player%;" + args[1]), true);
                 return false;
             }
 
             if (args.length == 2) {
-                sender.sendMessage(Lang.ERR_SPECIFY_VOUCHER.toString());
+                Lang.ERR_SPECIFY_VOUCHER.sendMessage(sender, null, true);
                 return false;
             }
 
@@ -96,7 +100,7 @@ public class CmdVoucher implements CommandExecutor {
                 }
 
                 if (!fileManager.getFile("vouchers").getCustomConfig().contains("Vouchers." + voucher + ".Item")) {
-                    sender.sendMessage(Lang.ERR_MISSING_ITEM.toString().replace("%voucher%", voucher));
+                    Lang.ERR_MISSING_ITEM.sendMessage(sender, Collections.singletonList("%voucher%;" + voucher), true);
                     return false;
                 }
 
@@ -106,7 +110,7 @@ public class CmdVoucher implements CommandExecutor {
                     try {
                         voucherItem.setAmount(Integer.parseInt(args[3]));
                     } catch (IllegalArgumentException e) {
-                        sender.sendMessage(Lang.ERR_BAD_AMOUNT.toString());
+                        Lang.ERR_BAD_AMOUNT.sendMessage(sender, null, true);
                     }
                 }
 
@@ -115,11 +119,11 @@ public class CmdVoucher implements CommandExecutor {
                 } else {
                     target.getInventory().addItem(voucherItem);
                 }
-                sender.sendMessage(Lang.VOUCHER_GIVEN.toString().replace("%player%", target.getName()).replace("%amount%", Integer.toString(voucherItem.getAmount())).replace("%voucher%", voucher));
+                Lang.VOUCHER_GIVEN.sendMessage(sender, Arrays.asList("%player%;" + target.getName(), "%amount%;" + Integer.toString(voucherItem.getAmount()), "%voucher%;" + voucher), true);
                 return true;
             }
 
-            sender.sendMessage(Lang.ERR_UNKNOWN_VOUCHER.toString());
+            Lang.ERR_UNKNOWN_VOUCHER.sendMessage(sender, null, true);
             return false;
         }
 
