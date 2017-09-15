@@ -1,6 +1,6 @@
 name: Vouchers
 description: Give your players items that execute commands
-version: 2.0
+version: 2.1.0
 author: Vanishedd
 main: com.vanished.vouchers.Vouchers
 commands:
